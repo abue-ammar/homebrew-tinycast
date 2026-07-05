@@ -7,7 +7,7 @@ cask "tinycast@alpha" do
   url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-#{version}.dmg",
       verified: "github.com/abue-ammar/tinycast/"
   name "Tinycast Alpha"
-  desc "Minimal native macOS menu-bar launcher (alpha channel)"
+  desc "Tinycast — A tiny, fully native macOS launcher, hotkeys, and clipboard history (alpha channel)"
   homepage "https://github.com/abue-ammar/tinycast"
 
   depends_on macos: ">= :tahoe"

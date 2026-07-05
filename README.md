@@ -1,7 +1,7 @@
 # homebrew-tinycast
 
-Homebrew tap for [Tinycast](https://github.com/abue-ammar/tinycast) — a minimal, native
-macOS menu-bar launcher.
+Homebrew tap for [Tinycast](https://github.com/abue-ammar/tinycast) — a tiny, fully native
+macOS launcher with hotkeys and clipboard history.
 
 ```sh
 brew tap abue-ammar/tinycast
