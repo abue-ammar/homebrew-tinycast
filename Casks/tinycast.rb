@@ -14,10 +14,11 @@ cask "tinycast" do
 
   app "Tinycast.app"
 
-  zap trash: [
-    "~/Library/Caches/com.tinycast.app",
-    "~/Library/Preferences/com.tinycast.app.plist",
-  ]
+  zap login_item: "Tinycast",
+      trash: [
+        "~/Library/Caches/com.tinycast.app",
+        "~/Library/Preferences/com.tinycast.app.plist",
+      ]
 
   caveats <<~EOS
     Tinycast is not signed with an Apple Developer ID and is not notarized

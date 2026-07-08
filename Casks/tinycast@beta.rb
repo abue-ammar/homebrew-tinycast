@@ -16,10 +16,11 @@ cask "tinycast@beta" do
   # side-by-side with the stable and alpha casks.
   app "Tinycast Beta.app"
 
-  zap trash: [
-    "~/Library/Caches/com.tinycast.app.beta",
-    "~/Library/Preferences/com.tinycast.app.beta.plist",
-  ]
+  zap login_item: "Tinycast Beta",
+      trash: [
+        "~/Library/Caches/com.tinycast.app.beta",
+        "~/Library/Preferences/com.tinycast.app.beta.plist",
+      ]
 
   caveats <<~EOS
     Tinycast Beta is not signed or notarized. macOS quarantines it on install;
