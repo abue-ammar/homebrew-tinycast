@@ -14,6 +14,14 @@ cask "tinycast" do
 
   app "Tinycast.app"
 
+  # Tinycast is signed with a stable self-signed identity (not an Apple Developer ID / not
+  # notarized), so macOS quarantines it. Strip the flag on every install AND upgrade so
+  # Gatekeeper won't block launch — the user never has to run xattr by hand.
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Tinycast.app"]
+  end
+
   zap login_item: "Tinycast",
       trash: [
         "~/Library/Caches/com.tinycast.app",
@@ -22,9 +30,7 @@ cask "tinycast" do
 
   caveats <<~EOS
     Tinycast is not signed with an Apple Developer ID and is not notarized
-    (this project has no paid Apple account). macOS quarantines it on install;
-    clear the flag once to open it:
-
-      xattr -dr com.apple.quarantine "#{appdir}/Tinycast.app"
+    (this project has no paid Apple account). Homebrew clears the macOS quarantine
+    flag for you automatically on install and every update, so there's nothing to run.
   EOS
 end

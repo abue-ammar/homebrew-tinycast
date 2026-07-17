@@ -15,12 +15,15 @@ with its own bundle id, so you can run stable + a pre-release at the same time.
 
 ## Note on signing
 
-Tinycast has no Apple Developer ID and is not notarized. macOS quarantines the app on
-install; the cask prints the one-time command to clear it:
+Tinycast has no Apple Developer ID and is not notarized, but it *is* signed with a stable
+self-signed identity — so macOS keeps your Accessibility permission across updates instead of
+re-prompting each time. The cask also clears the macOS quarantine flag automatically on every
+install and update (`postflight`), so **you never need to run `xattr` by hand** when installing
+through Homebrew.
 
-```sh
-xattr -dr com.apple.quarantine "/Applications/Tinycast.app"
-```
+(If you download the DMG directly from Releases instead of using Homebrew, macOS will quarantine
+it and you'll need to clear the flag once yourself:
+`xattr -dr com.apple.quarantine "/Applications/Tinycast.app"`.)
 
 ## Automation
 

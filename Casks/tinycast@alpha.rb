@@ -16,6 +16,13 @@ cask "tinycast@alpha" do
   # side-by-side with the stable and beta casks.
   app "Tinycast Alpha.app"
 
+  # Self-signed (not notarized): strip the quarantine flag on every install and upgrade
+  # so Gatekeeper won't block launch — no manual xattr needed.
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Tinycast Alpha.app"]
+  end
+
   zap login_item: "Tinycast Alpha",
       trash: [
         "~/Library/Caches/com.tinycast.app.alpha",
@@ -23,9 +30,7 @@ cask "tinycast@alpha" do
       ]
 
   caveats <<~EOS
-    Tinycast Alpha is not signed or notarized. macOS quarantines it on install;
-    clear the flag once to open it:
-
-      xattr -dr com.apple.quarantine "#{appdir}/Tinycast Alpha.app"
+    Tinycast Alpha is not signed or notarized. Homebrew clears the macOS quarantine
+    flag for you automatically on install and every update, so there's nothing to run.
   EOS
 end
