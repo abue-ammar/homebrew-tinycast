@@ -13,7 +13,7 @@ cask "tinycast@beta" do
   depends_on macos: :tahoe
 
   # Distinct bundle id (com.tinycast.app.beta) + app name, so beta installs
-  # side-by-side with the stable and alpha casks.
+  # side-by-side with the stable cask.
   app "Tinycast Beta.app"
 
   # Self-signed (not notarized): strip the quarantine flag on every install and upgrade
