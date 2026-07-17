@@ -31,8 +31,10 @@ cask "tinycast@beta" do
 
   zap login_item: "Tinycast Beta",
       trash:      [
+        "~/Library/Application Support/com.tinycast.app.beta",
         "~/Library/Caches/com.tinycast.app.beta",
         "~/Library/Preferences/com.tinycast.app.beta.plist",
+        "~/Library/Saved Application State/com.tinycast.app.beta.savedState",
       ]
 
   caveats <<~EOS
