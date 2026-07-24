@@ -16,14 +16,29 @@ cask "tinycast@beta" do
   # side-by-side with the stable cask.
   app "Tinycast Beta.app"
 
+  # Detect whether this run is a fresh install or an upgrade. preflight runs before the
+  # new bundle is staged into place, so if an app is already in appdir it's an upgrade.
+  # We can't share state directly with postflight (different DSL objects), so drop a marker.
+  preflight do
+    if File.exist?("#{appdir}/Tinycast Beta.app")
+      FileUtils.touch("#{staged_path}/.upgrade")
+    end
+  end
+
   # Self-signed (not notarized): strip the quarantine flag on every install and upgrade
-  # so Gatekeeper won't block launch — no manual xattr needed. Then relaunch in the
-  # background so an upgrade lands the user back in a running app.
+  # so Gatekeeper won't block launch — no manual xattr needed. Only auto-launch on a fresh
+  # install; upgrades stay silent so we don't interrupt or steal focus from the user.
   postflight do
+    upgrade = File.exist?("#{staged_path}/.upgrade")
+    FileUtils.rm_f("#{staged_path}/.upgrade")
+
     system_command "/usr/bin/xattr",
                    args: ["-dr", "com.apple.quarantine", "#{appdir}/Tinycast Beta.app"]
-    system_command "/usr/bin/open",
-                   args: ["-g", "#{appdir}/Tinycast Beta.app"]
+
+    unless upgrade
+      system_command "/usr/bin/open",
+                     args: ["-g", "#{appdir}/Tinycast Beta.app"]
+    end
   end
 
   # Quit the running app before Homebrew replaces the bundle on upgrade/uninstall.
@@ -36,10 +51,4 @@ cask "tinycast@beta" do
         "~/Library/Preferences/com.tinycast.app.beta.plist",
         "~/Library/Saved Application State/com.tinycast.app.beta.savedState",
       ]
-
-  caveats <<~EOS
-    Tinycast Beta is not signed or notarized. Homebrew clears the macOS quarantine
-    flag for you automatically on install and every update, so there's nothing to run.
-    Upgrading via `brew` quits and relaunches Tinycast Beta for you.
-  EOS
 end

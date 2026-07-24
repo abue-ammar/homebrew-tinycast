@@ -14,16 +14,31 @@ cask "tinycast" do
 
   app "Tinycast.app"
 
+  # Detect whether this run is a fresh install or an upgrade. preflight runs before the
+  # new bundle is staged into place, so if an app is already in appdir it's an upgrade.
+  # We can't share state directly with postflight (different DSL objects), so drop a marker.
+  preflight do
+    if File.exist?("#{appdir}/Tinycast.app")
+      FileUtils.touch("#{staged_path}/.upgrade")
+    end
+  end
+
   # Tinycast is signed with a stable self-signed identity (not an Apple Developer ID / not
   # notarized), so macOS quarantines it. Strip the flag on every install AND upgrade so
-  # Gatekeeper won't block launch — the user never has to run xattr by hand. Then relaunch
-  # (background, `-g`, so it doesn't steal focus) so an upgrade drops the user back into a
-  # running Tinycast; `uninstall quit:` closed the old copy first.
+  # Gatekeeper won't block launch — the user never has to run xattr by hand. Only auto-launch
+  # on a fresh install; upgrades stay silent so they don't steal focus. `uninstall quit:`
+  # closed the old copy first.
   postflight do
+    upgrade = File.exist?("#{staged_path}/.upgrade")
+    FileUtils.rm_f("#{staged_path}/.upgrade")
+
     system_command "/usr/bin/xattr",
                    args: ["-dr", "com.apple.quarantine", "#{appdir}/Tinycast.app"]
-    system_command "/usr/bin/open",
-                   args: ["-g", "#{appdir}/Tinycast.app"]
+
+    unless upgrade
+      system_command "/usr/bin/open",
+                     args: ["-g", "#{appdir}/Tinycast.app"]
+    end
   end
 
   # Quit the running app before Homebrew replaces the bundle on upgrade/uninstall — otherwise
@@ -37,11 +52,4 @@ cask "tinycast" do
         "~/Library/Preferences/com.tinycast.app.plist",
         "~/Library/Saved Application State/com.tinycast.app.savedState",
       ]
-
-  caveats <<~EOS
-    Tinycast is not signed with an Apple Developer ID and is not notarized
-    (this project has no paid Apple account). Homebrew clears the macOS quarantine
-    flag for you automatically on install and every update, so there's nothing to run.
-    Upgrading via `brew` quits and relaunches Tinycast for you.
-  EOS
 end
