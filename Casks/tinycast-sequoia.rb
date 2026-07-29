@@ -1,8 +1,8 @@
-cask "tinycast" do
-  # `version` and `sha256` are bumped automatically by the tinycast release workflow
-  # (stable channel). Placeholder until the first stable release is cut.
-  version "0.7.5"
-  sha256 "5cbc7176746b598bc9fbdba5c03fb2ae11ad092cc5974d040236681429d1f3a8"
+cask "tinycast-sequoia" do
+  # `version` and `sha256` are bumped automatically by the tinycast release-sequoia workflow.
+  # Placeholder until the first Sequoia release is cut.
+  version "0.7.5-sequoia"
+  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
 
   url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-#{version}.dmg",
       verified: "github.com/abue-ammar/tinycast/"
@@ -10,10 +10,13 @@ cask "tinycast" do
   desc "Tiny, fully native launcher, hotkeys, and clipboard history"
   homepage "https://github.com/abue-ammar/tinycast"
 
-  # Same app name and bundle id as the Sequoia cask, so the two can never coexist.
-  conflicts_with cask: "abue-ammar/tinycast/tinycast-sequoia"
-  # `:tahoe` already means ">= macOS 26"; macOS 15 takes the `tinycast-sequoia` cask instead.
-  depends_on macos: :tahoe
+  # Same app name and bundle id as the mainline cask on purpose — that's what preserves prefs and
+  # the Accessibility grant across a later upgrade to macOS 26 — so the two can never coexist.
+  conflicts_with cask: "abue-ammar/tinycast/tinycast"
+  # `:sequoia` means ">= macOS 15", matching this binary's actual floor. Homebrew has no
+  # non-deprecated way to express a maximum, so an upper bound is enforced from the other side:
+  # `tinycast` requires >= :tahoe, so a Sequoia machine can never be handed the macOS 26 build.
+  depends_on macos: :sequoia
 
   app "Tinycast.app"
 
