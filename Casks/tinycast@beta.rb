@@ -1,8 +1,8 @@
 cask "tinycast@beta" do
   # `version` and `sha256` are bumped automatically by the tinycast release workflow
   # (beta channel). Run one beta Release to populate these.
-  version "0.8.5-beta.40"
-  sha256 "6b7a9260e88e6b566458a221bd82aaf6103b81fcee5e20cd3eb8657ba9551c27"
+  version "0.8.6-beta.41"
+  sha256 "95f105b039d1971b5786c3dec05f8e0b5f952d03673610aee85f7031603dfdd9"
 
   url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-#{version}.dmg",
       verified: "github.com/abue-ammar/tinycast/"
