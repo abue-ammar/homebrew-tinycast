@@ -1,8 +1,8 @@
 cask "tinycast-sequoia" do
   # `version` and `sha256` are bumped automatically by the tinycast release-sequoia workflow.
   # Placeholder until the first Sequoia release is cut.
-  version "0.7.5-sequoia"
-  sha256 "df2004a2113c2760542ff250bb23a42f1ccf2f2cd22df22d6cc7d6f347808d4a"
+  version "0.9.4-sequoia"
+  sha256 "30aadec805ef5e160608aa0a72a186243dd10d202d7e8d35e94253647e3f96b8"
 
   url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-#{version}.dmg",
       verified: "github.com/abue-ammar/tinycast/"
