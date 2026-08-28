@@ -10,12 +10,15 @@ cask "tinycast-sequoia" do
   desc "Tiny, fully native launcher, hotkeys, and clipboard history"
   homepage "https://github.com/abue-ammar/tinycast"
 
-  # Same app name and bundle id as the mainline cask on purpose — that's what preserves prefs and
-  # the Accessibility grant across a later upgrade to macOS 26 — so the two can never coexist.
-  conflicts_with cask: "abue-ammar/tinycast/tinycast"
+  # Same app name and bundle id as the macOS 26 casks on purpose — that's what preserves prefs and
+  # the Accessibility grant across a later upgrade to macOS 26 — so no two can ever coexist.
+  conflicts_with cask: [
+    "abue-ammar/tinycast/tinycast",
+    "abue-ammar/tinycast/tinycast-universal",
+  ]
   # `:sequoia` means ">= macOS 15", matching this binary's actual floor. Homebrew has no
   # non-deprecated way to express a maximum, so an upper bound is enforced from the other side:
-  # `tinycast` requires >= :tahoe, so a Sequoia machine can never be handed the macOS 26 build.
+  # the macOS 26 casks require >= :tahoe, so a Sequoia machine can never be handed one.
   depends_on macos: :sequoia
 
   app "Tinycast.app"
