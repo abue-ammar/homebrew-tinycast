@@ -1,24 +1,23 @@
-cask "tinycast" do
+cask "tinycast-universal" do
   # `version` and `sha256` are bumped automatically by the tinycast release workflow
-  # (stable channel). Placeholder until the first stable release is cut.
+  # (stable channel, `universal` job). Placeholder until the first universal release is cut.
   version "0.10.2"
-  sha256 "2e4f51f5ba0bf16c16ea043385ce91dc685ba4db096e924340986ec1b1e9230d"
+  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
 
-  url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-#{version}.dmg",
+  url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-Universal-#{version}.dmg",
       verified: "github.com/abue-ammar/tinycast/"
   name "Tinycast"
-  desc "Tiny, fully native launcher, hotkeys, and clipboard history"
+  desc "Tiny, fully native launcher, hotkeys, and clipboard history (universal build)"
   homepage "https://github.com/abue-ammar/tinycast"
 
-  # Same app name and bundle id as the Sequoia and universal casks, so no two can coexist.
+  # Same app name and bundle id as the mainline and Sequoia casks, so no two can coexist.
   conflicts_with cask: [
+    "abue-ammar/tinycast/tinycast",
     "abue-ammar/tinycast/tinycast-sequoia",
-    "abue-ammar/tinycast/tinycast-universal",
   ]
-  # `:tahoe` already means ">= macOS 26"; macOS 15 takes the `tinycast-sequoia` cask instead.
+  # macOS 26 is the last release that boots on Intel, and this is the build those Macs need.
+  # Deliberately no `arch` guard: it runs everywhere, and `tinycast` is the leaner arm64 choice.
   depends_on macos: :tahoe
-  # This DMG is arm64-only. Intel Macs run macOS 26 too, and take `tinycast-universal` instead.
-  depends_on arch: :arm64
 
   app "Tinycast.app"
 
