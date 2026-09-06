@@ -4,8 +4,7 @@ cask "tinycast-universal" do
   version "0.10.5"
   sha256 "ade55b49af434a1c35c63523581d6a04227c8f4afdc9c304c76502bf26970a23"
 
-  url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-Universal-#{version}.dmg",
-      verified: "github.com/abue-ammar/tinycast/"
+  url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-Universal-#{version}.dmg"
   name "Tinycast"
   desc "Tiny, fully native launcher, hotkeys, and clipboard history (universal build)"
   homepage "https://github.com/abue-ammar/tinycast"
@@ -23,10 +22,10 @@ cask "tinycast-universal" do
 
   # Detect whether this run is a fresh install or an upgrade. preflight runs before the
   # new bundle is staged into place, so if an app is already in appdir it's an upgrade.
-  # We can't share state directly with postflight (different DSL objects), so drop a marker.
-  preflight do
-    if File.exist?("#{appdir}/Tinycast.app")
-      FileUtils.touch("#{staged_path}/.upgrade")
+  # Steps can't hand state to the postflight plan directly, so drop a marker in staged_path.
+  preflight_steps do
+    if_path_exists "Tinycast.app", base: :appdir do
+      touch ".upgrade"
     end
   end
 
@@ -35,17 +34,16 @@ cask "tinycast-universal" do
   # Gatekeeper won't block launch — the user never has to run xattr by hand. Only auto-launch
   # on a fresh install; upgrades stay silent so they don't steal focus. `uninstall quit:`
   # closed the old copy first.
-  postflight do
-    upgrade = File.exist?("#{staged_path}/.upgrade")
-    FileUtils.rm_f("#{staged_path}/.upgrade")
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/Tinycast.app"]
 
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Tinycast.app"]
-
-    unless upgrade
-      system_command "/usr/bin/open",
-                     args: ["-g", "#{appdir}/Tinycast.app"]
+    # The marker outlives this guard: `unless_path_exists` is evaluated when it is reached,
+    # so the removal below must stay last.
+    unless_path_exists ".upgrade" do
+      run "/usr/bin/open", args: ["-g", "{{appdir}}/Tinycast.app"]
     end
+
+    remove ".upgrade"
   end
 
   # Quit the running app before Homebrew replaces the bundle on upgrade/uninstall — otherwise
