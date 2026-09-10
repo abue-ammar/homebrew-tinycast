@@ -21,34 +21,15 @@ cask "tinycast" do
 
   app "Tinycast.app"
 
-  # Detect whether this run is a fresh install or an upgrade. preflight runs before the
-  # new bundle is staged into place, so if an app is already in appdir it's an upgrade.
-  # Steps can't hand state to the postflight plan directly, so drop a marker in staged_path.
-  preflight_steps do
-    if_path_exists "Tinycast.app", base: :appdir do
-      touch ".upgrade"
-    end
-  end
-
   # Tinycast is signed with a stable self-signed identity (not an Apple Developer ID / not
   # notarized), so macOS quarantines it. Strip the flag on every install AND upgrade so
-  # Gatekeeper won't block launch — the user never has to run xattr by hand. Only auto-launch
-  # on a fresh install; upgrades stay silent so they don't steal focus. `uninstall quit:`
-  # closed the old copy first.
+  # Gatekeeper won't block launch — the user never has to run xattr by hand.
   postflight_steps do
     run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/Tinycast.app"]
-
-    # The marker outlives this guard: `unless_path_exists` is evaluated when it is reached,
-    # so the removal below must stay last.
-    unless_path_exists ".upgrade" do
-      run "/usr/bin/open", args: ["-g", "{{appdir}}/Tinycast.app"]
-    end
-
-    remove ".upgrade"
   end
 
   # Quit the running app before Homebrew replaces the bundle on upgrade/uninstall — otherwise
-  # the update clobbers a live process. postflight relaunches it after an upgrade (not uninstall).
+  # the update clobbers a live process.
   uninstall quit: "com.tinycast.app"
 
   zap login_item: "Tinycast",
