@@ -1,8 +1,8 @@
 cask "tinycast-universal" do
   # `version` and `sha256` are bumped automatically by the tinycast release workflow
   # (stable channel, `universal` job). Placeholder until the first universal release is cut.
-  version "0.10.20"
-  sha256 "1a741c5e4cbfccc1601a9daa8518c23b9dec9411e143ca9262da04f8745fba23"
+  version "0.10.23"
+  sha256 "080cc613959a205f35eaf5ca4d0d944ddc0ccc4fbf7499a2f5de81eb2d3acf03"
 
   url "https://github.com/abue-ammar/tinycast/releases/download/v#{version}/Tinycast-Universal-#{version}.dmg"
   name "Tinycast"
