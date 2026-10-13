@@ -14,10 +14,10 @@ cask "tinycast" do
     "abue-ammar/tinycast/tinycast-sequoia",
     "abue-ammar/tinycast/tinycast-universal",
   ]
-  # `:tahoe` already means ">= macOS 26"; macOS 15 takes the `tinycast-sequoia` cask instead.
-  depends_on macos: :tahoe
   # This DMG is arm64-only. Intel Macs run macOS 26 too, and take `tinycast-universal` instead.
   depends_on arch: :arm64
+  # `:tahoe` already means ">= macOS 26"; macOS 15 takes the `tinycast-sequoia` cask instead.
+  depends_on macos: :tahoe
 
   app "Tinycast.app"
 
