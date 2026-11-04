@@ -9,12 +9,8 @@ cask "tinycast" do
   desc "Tiny, fully native launcher, hotkeys, and clipboard history"
   homepage "https://github.com/abue-ammar/tinycast"
 
-  # Same app name and bundle id as the Sequoia and universal casks, so no two can coexist.
-  conflicts_with cask: [
-    "abue-ammar/tinycast/tinycast-sequoia",
-    "abue-ammar/tinycast/tinycast-universal",
-  ]
-  # `:tahoe` already means ">= macOS 26"; macOS 15 takes the `tinycast-sequoia` cask instead.
+  # Same app name and bundle id as the universal cask, so the two can't coexist.
+  conflicts_with cask: "abue-ammar/tinycast/tinycast-universal"
   depends_on macos: :tahoe
   # This DMG is arm64-only. Intel Macs run macOS 26 too, and take `tinycast-universal` instead.
   depends_on arch: :arm64

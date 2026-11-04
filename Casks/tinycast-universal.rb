@@ -9,11 +9,8 @@ cask "tinycast-universal" do
   desc "Tiny, fully native launcher, hotkeys, and clipboard history (universal build)"
   homepage "https://github.com/abue-ammar/tinycast"
 
-  # Same app name and bundle id as the mainline and Sequoia casks, so no two can coexist.
-  conflicts_with cask: [
-    "abue-ammar/tinycast/tinycast",
-    "abue-ammar/tinycast/tinycast-sequoia",
-  ]
+  # Same app name and bundle id as `tinycast`, so the two can't coexist.
+  conflicts_with cask: "abue-ammar/tinycast/tinycast"
   # macOS 26 is the last release that boots on Intel, and this is the build those Macs need.
   # Deliberately no `arch` guard: it runs everywhere, and `tinycast` is the leaner arm64 choice.
   depends_on macos: :tahoe
