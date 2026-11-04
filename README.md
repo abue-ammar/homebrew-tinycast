@@ -57,15 +57,12 @@ macOS 15 is the hard floor; macOS 14 and earlier are not supported.
 
 ## Note on signing
 
-Tinycast has no Apple Developer ID and is not notarized, but it *is* signed with a stable
-self-signed identity — so macOS keeps your Accessibility permission across updates instead of
-re-prompting each time. The cask also clears the macOS quarantine flag automatically on every
-install and update (`postflight`), so **you never need to run `xattr` by hand** when installing
-through Homebrew.
+Releases are signed with Tinycast's Apple Developer ID and notarized by Apple, so they open without
+a warning, through Homebrew or from the DMG. `tinycast@beta` is notarized from 0.12.8-beta.132, and
+`tinycast` and `tinycast-universal` will be from the next stable release.
 
-(If you download the DMG directly from Releases instead of using Homebrew, macOS will quarantine
-it and you'll need to clear the flag once yourself:
-`xattr -dr com.apple.quarantine "/Applications/Tinycast.app"`.)
+Until then, and for `tinycast-sequoia`, the build is self-signed, so the cask clears the macOS
+quarantine flag on every install and update (`postflight`) and **you never need to do it by hand**.
 
 ## Automation
 
