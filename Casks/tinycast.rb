@@ -9,24 +9,13 @@ cask "tinycast" do
   desc "Tiny, fully native launcher, hotkeys, and clipboard history"
   homepage "https://github.com/abue-ammar/tinycast"
 
-  # Same app name and bundle id as the Sequoia and universal casks, so no two can coexist.
-  conflicts_with cask: [
-    "abue-ammar/tinycast/tinycast-sequoia",
-    "abue-ammar/tinycast/tinycast-universal",
-  ]
-  # `:tahoe` already means ">= macOS 26"; macOS 15 takes the `tinycast-sequoia` cask instead.
+  # Same app name and bundle id as the universal cask, so the two can't coexist.
+  conflicts_with cask: "abue-ammar/tinycast/tinycast-universal"
   depends_on macos: :tahoe
   # This DMG is arm64-only. Intel Macs run macOS 26 too, and take `tinycast-universal` instead.
   depends_on arch: :arm64
 
   app "Tinycast.app"
-
-  # Tinycast is signed with a stable self-signed identity (not an Apple Developer ID / not
-  # notarized), so macOS quarantines it. Strip the flag on every install AND upgrade so
-  # Gatekeeper won't block launch — the user never has to run xattr by hand.
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/Tinycast.app"]
-  end
 
   # Quit the running app before Homebrew replaces the bundle on upgrade/uninstall — otherwise
   # the update clobbers a live process.
