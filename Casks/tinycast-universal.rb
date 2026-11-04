@@ -20,13 +20,6 @@ cask "tinycast-universal" do
 
   app "Tinycast.app"
 
-  # Tinycast is signed with a stable self-signed identity (not an Apple Developer ID / not
-  # notarized), so macOS quarantines it. Strip the flag on every install AND upgrade so
-  # Gatekeeper won't block launch — the user never has to run xattr by hand.
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/Tinycast.app"]
-  end
-
   # Quit the running app before Homebrew replaces the bundle on upgrade/uninstall — otherwise
   # the update clobbers a live process.
   uninstall quit: "com.tinycast.app"

@@ -58,11 +58,9 @@ macOS 15 is the hard floor; macOS 14 and earlier are not supported.
 ## Note on signing
 
 Releases are signed with Tinycast's Apple Developer ID and notarized by Apple, so they open without
-a warning, through Homebrew or from the DMG. `tinycast@beta` is notarized from 0.12.8-beta.132, and
-`tinycast` and `tinycast-universal` will be from the next stable release.
-
-Until then, and for `tinycast-sequoia`, the build is self-signed, so the cask clears the macOS
-quarantine flag on every install and update (`postflight`) and **you never need to do it by hand**.
+a warning, through Homebrew or from the DMG. The exception is `tinycast-sequoia`: that build is
+self-signed, so its cask clears the macOS quarantine flag on every install and update (`postflight`)
+and **you never need to do it by hand**.
 
 ## Automation
 
