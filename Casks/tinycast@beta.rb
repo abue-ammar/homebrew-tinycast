@@ -15,12 +15,6 @@ cask "tinycast@beta" do
   # side-by-side with the stable cask.
   app "Tinycast Beta.app"
 
-  # Self-signed (not notarized): strip the quarantine flag on every install and upgrade
-  # so Gatekeeper won't block launch — no manual xattr needed.
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/Tinycast Beta.app"]
-  end
-
   # Quit the running app before Homebrew replaces the bundle on upgrade/uninstall.
   uninstall quit: "com.tinycast.app.beta"
 
