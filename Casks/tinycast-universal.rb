@@ -10,7 +10,7 @@ cask "tinycast-universal" do
   homepage "https://github.com/abue-ammar/tinycast"
 
   # Same app name and bundle id as `tinycast`, so the two can't coexist.
-  conflicts_with cask: "abue-ammar/tinycast/tinycast"
+  conflicts_with cask: "tinycast"
   # macOS 26 is the last release that boots on Intel, and this is the build those Macs need.
   # Deliberately no `arch` guard: it runs everywhere, and `tinycast` is the leaner arm64 choice.
   depends_on macos: :tahoe
