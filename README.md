@@ -3,23 +3,23 @@
 Homebrew tap for [Tinycast](https://github.com/abue-ammar/tinycast) — a tiny, fully native
 macOS launcher with hotkeys and clipboard history.
 
-Stable Tinycast for Apple silicon is in Homebrew's official casks and needs no tap:
+Tinycast and its beta for Apple silicon are in Homebrew's official casks and need no tap:
 
 ```sh
-brew install --cask tinycast
+brew install --cask tinycast        # stable   (macOS 26+)
+brew install --cask tinycast@beta   # beta     (macOS 26+, side-by-side)
 ```
 
-This tap carries the other two builds:
+This tap carries the universal build:
 
 ```sh
 brew trust --tap abue-ammar/tinycast     # required for third-party taps
 brew tap abue-ammar/tinycast
 brew install --cask tinycast-universal  # stable   (macOS 26 Tahoe, Intel)
-brew install --cask tinycast@beta       # beta     (macOS 26+, side-by-side)
 ```
 
-If you installed `tinycast` from this tap, do nothing: `tap_migrations.json` moves it to
-`homebrew/cask` on your next `brew update`, without a reinstall.
+If you installed `tinycast` or `tinycast@beta` from this tap, do nothing: `tap_migrations.json`
+moves it to `homebrew/cask` on your next `brew update`, without a reinstall.
 
 `tinycast` and `tinycast@beta` are distinct apps (`Tinycast.app`, `Tinycast Beta.app`) with
 their own bundle ids, so you can run stable + the beta at the same time.
@@ -40,6 +40,6 @@ a warning, through Homebrew or from the DMG.
 
 ## Automation
 
-The `version` and `sha256` fields of the casks here are bumped automatically by `release.yml` in the
-[main repo](https://github.com/abue-ammar/tinycast) whenever a build is published. Do not edit them
-by hand.
+The `version` and `sha256` fields of `tinycast-universal` are bumped automatically by
+`release.yml` in the [main repo](https://github.com/abue-ammar/tinycast) whenever a stable build is
+published. Do not edit them by hand.
