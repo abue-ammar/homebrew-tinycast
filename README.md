@@ -1,24 +1,24 @@
-# homebrew-tinycast
+# Tinycast for Intel Macs
 
-Homebrew tap for the universal build of [Tinycast](https://github.com/abue-ammar/tinycast), for Intel
-Macs.
+> [!IMPORTANT]
+> **This tap is only for Intel Macs.**
+
+## Install on an Intel Mac
 
 ```sh
 brew trust --tap abue-ammar/tinycast     # required for third-party taps
 brew tap abue-ammar/tinycast
-brew install --cask tinycast-universal  # stable (macOS 26 Tahoe, Intel)
+brew install --cask tinycast-universal
 ```
 
-macOS 26 Tahoe is the last release that boots on Intel. `tinycast-universal` is the stable release
-built with both slices, so it runs on those Macs. It installs the same `Tinycast.app` as the
-official `tinycast` cask, so only one of the two can be installed at a time.
+It needs macOS 26 Tahoe, the last release that runs on Intel.
 
-On Apple silicon, install `tinycast` or `tinycast@beta` from Homebrew's official casks instead.
+## About this build
 
-If you installed `tinycast` or `tinycast@beta` from this tap, do nothing: `tap_migrations.json`
-moves it to `homebrew/cask` on your next `brew update`, without a reinstall.
+`tinycast-universal` is the stable release of [Tinycast](https://github.com/abue-ammar/tinycast),
+built to run on Intel Macs.
 
-## Note on signing
+## Signing
 
 Releases are signed with Tinycast's Apple Developer ID and notarized by Apple, so they open without
 a warning, through Homebrew or from the DMG.
