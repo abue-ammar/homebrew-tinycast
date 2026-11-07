@@ -1,3 +1,4 @@
 {
-  "tinycast": "homebrew/cask"
+  "tinycast": "homebrew/cask",
+  "tinycast@beta": "homebrew/cask"
 }
